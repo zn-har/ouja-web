@@ -1,65 +1,100 @@
-import Image from "next/image";
+'use client';
+
+import { usePlanchette } from '@/hooks/usePlanchette';
+import { useOuijaSession } from '@/hooks/useOuijaSession';
+import { BoardElements } from '@/components/ouija/BoardElements';
+import { Planchette } from '@/components/ouija/Planchette';
+import { QuestionInput } from '@/components/ouija/QuestionInput';
+import { MessageHistory } from '@/components/ouija/MessageHistory';
 
 export default function Home() {
+  const planchette = usePlanchette();
+
+  const session = useOuijaSession({
+    onCharacterChange: planchette.animateToCharacter,
+    onComplete: planchette.reset
+  });
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black py-8 px-4">
+      <div className="container mx-auto max-w-6xl">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1
+            className="text-5xl md:text-6xl font-bold text-amber-600 mb-2"
+            style={{
+              fontFamily: 'serif',
+              letterSpacing: '4px',
+              textShadow: '0 0 30px rgba(217, 119, 6, 0.8)'
+            }}
+          >
+            ✦ OUIJA ✦
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-amber-800 text-sm md:text-base" style={{ fontFamily: 'serif' }}>
+            Ask the spirits your questions... if you dare
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        {/* Ouija Board */}
+        <div className="relative w-full max-w-4xl mx-auto mb-8">
+          <div
+            className="relative w-full aspect-[4/3] bg-gray-900 rounded-lg shadow-2xl overflow-hidden"
+            style={{
+              boxShadow: '0 0 50px rgba(217, 119, 6, 0.3)'
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+            {/* Board Elements */}
+            <BoardElements />
+
+            {/* Planchette */}
+            <Planchette
+              position={planchette.position}
+              rotation={planchette.rotation}
+              isMoving={planchette.isMoving}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
+
+          {/* Current Answer Display */}
+          {session.currentAnswer && (
+            <div className="mt-4 text-center">
+              <p className="text-amber-500 text-sm mb-1">Current Message:</p>
+              <p
+                className="text-amber-300 text-2xl font-bold tracking-widest"
+                style={{
+                  fontFamily: 'serif',
+                  textShadow: '0 0 15px rgba(252, 211, 77, 0.5)'
+                }}
+              >
+                {session.currentAnswer}
+              </p>
+            </div>
+          )}
         </div>
-      </main>
-    </div>
+
+        {/* Question Input */}
+        <QuestionInput
+          onSubmit={session.askSpirit}
+          disabled={session.isAsking}
+        />
+
+        {/* Error Display */}
+        {session.error && (
+          <div className="mt-4 p-4 bg-red-900/30 border border-red-700 rounded-lg text-center">
+            <p className="text-red-400">{session.error}</p>
+          </div>
+        )}
+
+        {/* Message History */}
+        <MessageHistory
+          messages={session.messages}
+          onClear={session.clearHistory}
+        />
+
+        {/* Footer */}
+        <div className="text-center mt-12 text-amber-900 text-xs" style={{ fontFamily: 'serif' }}>
+          <p className="mt-2">✦ May the spirits guide you ✦</p>
+        </div>
+      </div>
+    </main>
   );
 }
