@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3d2213"/>
+      <stop offset="100%" stop-color="#150c07"/>
+    </radialGradient>
+    <radialGradient id="coin" cx="40%" cy="35%">
+      <stop offset="0%" stop-color="#f0d060"/>
+      <stop offset="60%" stop-color="#c9a030"/>
+      <stop offset="100%" stop-color="#8a6e1e"/>
+    </radialGradient>
+  </defs>
+  <!-- Board background -->
+  <rect width="64" height="64" rx="12" fill="url(#bg)"/>
+  <rect x="3" y="3" width="58" height="58" rx="10" fill="none" stroke="#8b6914" stroke-width="1" opacity="0.4"/>
+  <!-- Letter circle -->
+  <circle cx="32" cy="32" r="24" fill="none" stroke="#d4a574" stroke-width="0.6" opacity="0.3"/>
+  <!-- Sample letters -->
+  <text x="32" y="12" font-size="7" fill="#d4a574" text-anchor="middle" font-family="serif" font-weight="bold" opacity="0.8">A</text>
+  <text x="52" y="22" font-size="7" fill="#d4a574" text-anchor="middle" font-family="serif" font-weight="bold" opacity="0.8">G</text>
+  <text x="56" y="36" font-size="7" fill="#d4a574" text-anchor="middle" font-family="serif" font-weight="bold" opacity="0.8">J</text>
+  <text x="48" y="52" font-size="7" fill="#d4a574" text-anchor="middle" font-family="serif" font-weight="bold" opacity="0.8">N</text>
+  <text x="32" y="58" font-size="7" fill="#d4a574" text-anchor="middle" font-family="serif" font-weight="bold" opacity="0.8">R</text>
+  <text x="14" y="52" font-size="7" fill="#d4a574" text-anchor="middle" font-family="serif" font-weight="bold" opacity="0.8">V</text>
+  <text x="8" y="36" font-size="7" fill="#d4a574" text-anchor="middle" font-family="serif" font-weight="bold" opacity="0.8">Y</text>
+  <text x="12" y="22" font-size="7" fill="#d4a574" text-anchor="middle" font-family="serif" font-weight="bold" opacity="0.8">D</text>
+  <!-- Coin in center -->
+  <circle cx="32" cy="32" r="10" fill="url(#coin)" stroke="#a08020" stroke-width="1"/>
+  <circle cx="32" cy="32" r="7" fill="none" stroke="#a08020" stroke-width="0.6" opacity="0.5"/>
+  <circle cx="32" cy="32" r="3.5" fill="#150c07" stroke="#c9a030" stroke-width="0.8"/>
+  <!-- Coin highlight -->
+  <ellipse cx="29" cy="29" rx="3" ry="2" fill="rgba(255,255,220,0.25)" transform="rotate(-30,29,29)"/>
+</svg>

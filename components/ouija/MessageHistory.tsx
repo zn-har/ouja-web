@@ -22,68 +22,77 @@ export function MessageHistory({ messages, onClear }: MessageHistoryProps) {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto mt-12 mb-8">
-      <div className="flex items-center justify-between mb-4">
-        <h2
-          className="text-2xl font-bold text-amber-600"
-          style={{
-            fontFamily: 'serif',
-            letterSpacing: '2px',
-            textShadow: '0 0 10px rgba(217, 119, 6, 0.5)'
-          }}
-        >
-          ✦ SPIRIT MESSAGES ✦
-        </h2>
+    <div className="w-full max-w-2xl mx-auto mt-16 mb-8">
+      {/* Section header */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="h-px w-8 bg-gradient-to-r from-transparent to-amber-700/40" />
+          <h2
+            className="text-lg font-semibold text-amber-600/70 tracking-[4px] uppercase"
+            style={{ fontFamily: "'Cinzel', serif" }}
+          >
+            Messages
+          </h2>
+          <div className="h-px w-8 bg-gradient-to-l from-transparent to-amber-700/40" />
+        </div>
         <button
           onClick={onClear}
-          className="px-4 py-2 text-sm text-amber-700 border border-amber-700 rounded
-                   hover:bg-amber-900 hover:text-amber-100 transition-all duration-300"
-          style={{ fontFamily: 'serif' }}
+          className="px-3 py-1.5 text-xs text-amber-800/50 border border-amber-800/20 rounded-lg
+                   hover:bg-amber-900/10 hover:text-amber-600/70 hover:border-amber-800/40
+                   transition-all duration-500"
+          style={{ fontFamily: "'Cinzel', serif", letterSpacing: '1px' }}
         >
-          Clear History
+          Clear
         </button>
       </div>
 
-      <div className="space-y-4 max-h-96 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-amber-900 scrollbar-track-gray-900">
+      {/* Messages list */}
+      <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
         <AnimatePresence>
-          {messages.map((message, index) => (
+          {messages.map((message) => (
             <motion.div
               key={message.timestamp}
-              initial={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0, y: -15 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0.3 }}
-              className="bg-gray-900 border-2 border-amber-800 rounded-lg p-4
-                       hover:border-amber-600 transition-all duration-300"
+              exit={{ opacity: 0, y: 15 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+              className="bg-[#0e0906] border border-amber-800/20 rounded-xl p-5
+                       hover:border-amber-700/30 transition-all duration-500
+                       group"
               style={{
-                boxShadow: '0 0 15px rgba(217, 119, 6, 0.1)'
+                boxShadow: '0 2px 12px rgba(0, 0, 0, 0.3)',
               }}
             >
               <div className="flex items-start justify-between gap-4">
-                <div className="flex-1 space-y-2">
+                <div className="flex-1 space-y-3">
                   {/* Question */}
                   <div>
-                    <div className="text-xs text-amber-700 mb-1 font-semibold">
-                      YOUR QUESTION:
+                    <div className="text-[10px] text-amber-700/40 mb-1 tracking-[3px] uppercase"
+                      style={{ fontFamily: "'Cinzel', serif" }}>
+                      Question
                     </div>
                     <div
-                      className="text-amber-100 text-base"
-                      style={{ fontFamily: 'serif' }}
+                      className="text-amber-100/70 text-base"
+                      style={{ fontFamily: "'EB Garamond', serif" }}
                     >
                       {message.question}
                     </div>
                   </div>
 
+                  {/* Divider */}
+                  <div className="h-px w-full bg-gradient-to-r from-amber-800/10 via-amber-800/20 to-amber-800/10" />
+
                   {/* Answer */}
                   <div>
-                    <div className="text-xs text-amber-700 mb-1 font-semibold">
-                      SPIRIT ANSWER:
+                    <div className="text-[10px] text-amber-700/40 mb-1 tracking-[3px] uppercase"
+                      style={{ fontFamily: "'Cinzel', serif" }}>
+                      Spirit
                     </div>
                     <div
-                      className="text-amber-300 text-xl font-bold tracking-wider"
+                      className="text-amber-300/80 text-xl font-bold tracking-[4px]"
                       style={{
-                        fontFamily: 'serif',
-                        textShadow: '0 0 10px rgba(252, 211, 77, 0.3)'
+                        fontFamily: "'Cinzel', serif",
+                        textShadow: '0 0 12px rgba(252, 211, 77, 0.15)'
                       }}
                     >
                       {message.answer}
@@ -92,7 +101,8 @@ export function MessageHistory({ messages, onClear }: MessageHistoryProps) {
                 </div>
 
                 {/* Timestamp */}
-                <div className="text-xs text-amber-800 whitespace-nowrap">
+                <div className="text-[10px] text-amber-800/30 whitespace-nowrap"
+                  style={{ fontFamily: "'Cinzel', serif" }}>
                   {formatTime(message.timestamp)}
                 </div>
               </div>
