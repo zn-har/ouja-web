@@ -1,4 +1,4 @@
-import { Position, OuijaElement, ControlPositions } from '@/types/ouija';
+import { Position, OuijaElement, ControlPositions } from "@/types/ouija";
 
 // Board dimensions
 const BOARD_WIDTH = 800;
@@ -10,7 +10,7 @@ const CENTER_Y = BOARD_HEIGHT / 2;
  * Calculate positions for letters A-Z arranged in a full circle
  */
 export function getLetterPositions(): OuijaElement[] {
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   const letterElements: OuijaElement[] = [];
 
   const radius = 200;
@@ -25,7 +25,7 @@ export function getLetterPositions(): OuijaElement[] {
     letterElements.push({
       char: letter,
       position: { x, y },
-      rotation: 0 // Keep letters upright for readability
+      rotation: 0, // Keep letters upright for readability
     });
   });
 
@@ -36,7 +36,7 @@ export function getLetterPositions(): OuijaElement[] {
  * Calculate positions for numbers 0-9 in an inner circle
  */
 export function getNumberPositions(): OuijaElement[] {
-  const numbers = '1234567890'.split('');
+  const numbers = "1234567890".split("");
   const numberElements: OuijaElement[] = [];
 
   const radius = 130;
@@ -50,7 +50,7 @@ export function getNumberPositions(): OuijaElement[] {
     numberElements.push({
       char: num,
       position: { x, y },
-      rotation: 0
+      rotation: 0,
     });
   });
 
@@ -64,16 +64,16 @@ export function getControlPositions(): ControlPositions {
   return {
     yes: {
       x: CENTER_X - 120,
-      y: CENTER_Y
+      y: CENTER_Y,
     },
     no: {
       x: CENTER_X + 120,
-      y: CENTER_Y
+      y: CENTER_Y,
     },
     goodbye: {
       x: CENTER_X,
-      y: CENTER_Y + 50
-    }
+      y: CENTER_Y + 50,
+    },
   };
 }
 
@@ -87,18 +87,18 @@ export function getAllBoardElements() {
 
   const elementMap = new Map<string, Position>();
 
-  letters.forEach(el => elementMap.set(el.char, el.position));
-  numbers.forEach(el => elementMap.set(el.char, el.position));
-  elementMap.set('YES', controls.yes);
-  elementMap.set('NO', controls.no);
-  elementMap.set('GOODBYE', controls.goodbye);
-  elementMap.set('START', { x: CENTER_X, y: CENTER_Y });
+  letters.forEach((el) => elementMap.set(el.char, el.position));
+  numbers.forEach((el) => elementMap.set(el.char, el.position));
+  elementMap.set("YES", controls.yes);
+  elementMap.set("NO", controls.no);
+  elementMap.set("GOODBYE", controls.goodbye);
+  elementMap.set("START", { x: CENTER_X, y: CENTER_Y });
 
   return {
     letters,
     numbers,
     controls,
-    elementMap
+    elementMap,
   };
 }
 

@@ -1,6 +1,10 @@
-'use client';
+"use client";
 
-import { getLetterPositions, getNumberPositions, getControlPositions } from '@/utils/boardPositions';
+import {
+  getLetterPositions,
+  getNumberPositions,
+  getControlPositions,
+} from "@/utils/boardPositions";
 
 export function BoardElements() {
   const letters = getLetterPositions();
@@ -8,27 +12,82 @@ export function BoardElements() {
   const controls = getControlPositions();
 
   return (
-    <svg
-      viewBox="0 0 800 600"
-      className="w-full h-full"
-    >
+    <svg viewBox="0 0 800 600" className="w-full h-full">
       <defs>
         {/* Wood grain gradient */}
         <radialGradient id="boardGradient" cx="50%" cy="50%" r="70%">
-          <stop offset="0%" style={{ stopColor: '#3d2213', stopOpacity: 1 }} />
-          <stop offset="40%" style={{ stopColor: '#2a1810', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#150c07', stopOpacity: 1 }} />
+          <stop offset="0%" style={{ stopColor: "#3d2213", stopOpacity: 1 }} />
+          <stop offset="40%" style={{ stopColor: "#2a1810", stopOpacity: 1 }} />
+          <stop
+            offset="100%"
+            style={{ stopColor: "#150c07", stopOpacity: 1 }}
+          />
         </radialGradient>
 
         {/* Wood grain pattern */}
-        <pattern id="woodGrain" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
+        <pattern
+          id="woodGrain"
+          x="0"
+          y="0"
+          width="200"
+          height="200"
+          patternUnits="userSpaceOnUse"
+        >
           <rect width="200" height="200" fill="transparent" />
-          <line x1="0" y1="20" x2="200" y2="25" stroke="#3d2213" strokeWidth="0.5" opacity="0.15" />
-          <line x1="0" y1="50" x2="200" y2="48" stroke="#3d2213" strokeWidth="0.8" opacity="0.1" />
-          <line x1="0" y1="85" x2="200" y2="88" stroke="#3d2213" strokeWidth="0.4" opacity="0.12" />
-          <line x1="0" y1="110" x2="200" y2="112" stroke="#3d2213" strokeWidth="0.6" opacity="0.08" />
-          <line x1="0" y1="145" x2="200" y2="142" stroke="#3d2213" strokeWidth="0.5" opacity="0.1" />
-          <line x1="0" y1="175" x2="200" y2="178" stroke="#3d2213" strokeWidth="0.3" opacity="0.13" />
+          <line
+            x1="0"
+            y1="20"
+            x2="200"
+            y2="25"
+            stroke="#3d2213"
+            strokeWidth="0.5"
+            opacity="0.15"
+          />
+          <line
+            x1="0"
+            y1="50"
+            x2="200"
+            y2="48"
+            stroke="#3d2213"
+            strokeWidth="0.8"
+            opacity="0.1"
+          />
+          <line
+            x1="0"
+            y1="85"
+            x2="200"
+            y2="88"
+            stroke="#3d2213"
+            strokeWidth="0.4"
+            opacity="0.12"
+          />
+          <line
+            x1="0"
+            y1="110"
+            x2="200"
+            y2="112"
+            stroke="#3d2213"
+            strokeWidth="0.6"
+            opacity="0.08"
+          />
+          <line
+            x1="0"
+            y1="145"
+            x2="200"
+            y2="142"
+            stroke="#3d2213"
+            strokeWidth="0.5"
+            opacity="0.1"
+          />
+          <line
+            x1="0"
+            y1="175"
+            x2="200"
+            y2="178"
+            stroke="#3d2213"
+            strokeWidth="0.3"
+            opacity="0.13"
+          />
         </pattern>
 
         {/* Letter glow filter */}
@@ -48,15 +107,22 @@ export function BoardElements() {
 
         {/* Ornate corner clip */}
         <linearGradient id="borderGold" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#c9a030', stopOpacity: 1 }} />
-          <stop offset="50%" style={{ stopColor: '#8b6914', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#c9a030', stopOpacity: 1 }} />
+          <stop offset="0%" style={{ stopColor: "#c9a030", stopOpacity: 1 }} />
+          <stop offset="50%" style={{ stopColor: "#8b6914", stopOpacity: 1 }} />
+          <stop
+            offset="100%"
+            style={{ stopColor: "#c9a030", stopOpacity: 1 }}
+          />
         </linearGradient>
       </defs>
 
       {/* Board background */}
       <rect
-        x="40" y="20" width="720" height="560" rx="25"
+        x="40"
+        y="20"
+        width="720"
+        height="560"
+        rx="25"
         fill="url(#boardGradient)"
         stroke="url(#borderGold)"
         strokeWidth="3"
@@ -64,14 +130,22 @@ export function BoardElements() {
 
       {/* Wood grain overlay */}
       <rect
-        x="40" y="20" width="720" height="560" rx="25"
+        x="40"
+        y="20"
+        width="720"
+        height="560"
+        rx="25"
         fill="url(#woodGrain)"
         opacity="0.6"
       />
 
       {/* Inner border */}
       <rect
-        x="55" y="35" width="690" height="530" rx="18"
+        x="55"
+        y="35"
+        width="690"
+        height="530"
+        rx="18"
         fill="none"
         stroke="#d4a574"
         strokeWidth="0.8"
@@ -81,7 +155,9 @@ export function BoardElements() {
 
       {/* Outer decorative ring */}
       <circle
-        cx="400" cy="300" r="228"
+        cx="400"
+        cy="300"
+        r="228"
         fill="none"
         stroke="#d4a574"
         strokeWidth="0.5"
@@ -89,7 +165,9 @@ export function BoardElements() {
         strokeDasharray="2 4"
       />
       <circle
-        cx="400" cy="300" r="222"
+        cx="400"
+        cy="300"
+        r="222"
         fill="none"
         stroke="#8b6914"
         strokeWidth="0.8"
@@ -98,7 +176,9 @@ export function BoardElements() {
 
       {/* Inner decorative ring */}
       <circle
-        cx="400" cy="300" r="152"
+        cx="400"
+        cy="300"
+        r="152"
         fill="none"
         stroke="#d4a574"
         strokeWidth="0.5"
@@ -106,7 +186,9 @@ export function BoardElements() {
         strokeDasharray="2 4"
       />
       <circle
-        cx="400" cy="300" r="148"
+        cx="400"
+        cy="300"
+        r="148"
         fill="none"
         stroke="#8b6914"
         strokeWidth="0.8"
@@ -115,7 +197,9 @@ export function BoardElements() {
 
       {/* Center circle */}
       <circle
-        cx="400" cy="300" r="70"
+        cx="400"
+        cy="300"
+        r="70"
         fill="none"
         stroke="#d4a574"
         strokeWidth="0.5"
@@ -123,12 +207,35 @@ export function BoardElements() {
       />
 
       {/* Cross lines through center */}
-      <line x1="400" y1="235" x2="400" y2="365" stroke="#d4a574" strokeWidth="0.3" opacity="0.06" />
-      <line x1="335" y1="300" x2="465" y2="300" stroke="#d4a574" strokeWidth="0.3" opacity="0.06" />
+      <line
+        x1="400"
+        y1="235"
+        x2="400"
+        y2="365"
+        stroke="#d4a574"
+        strokeWidth="0.3"
+        opacity="0.06"
+      />
+      <line
+        x1="335"
+        y1="300"
+        x2="465"
+        y2="300"
+        stroke="#d4a574"
+        strokeWidth="0.3"
+        opacity="0.06"
+      />
 
       {/* Sun (top-left) */}
       <g opacity="0.5" filter="url(#softGlow)">
-        <circle cx="110" cy="60" r="12" fill="none" stroke="#d4a574" strokeWidth="1.5" />
+        <circle
+          cx="110"
+          cy="60"
+          r="12"
+          fill="none"
+          stroke="#d4a574"
+          strokeWidth="1.5"
+        />
         <circle cx="110" cy="60" r="6" fill="#d4a574" opacity="0.6" />
         {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => {
           const rad = (angle * Math.PI) / 180;
@@ -248,7 +355,7 @@ export function BoardElements() {
           fill="#d4a574"
           textAnchor="middle"
           dominantBaseline="middle"
-          style={{ fontFamily: "'Cinzel', serif", letterSpacing: '3px' }}
+          style={{ fontFamily: "'Cinzel', serif", letterSpacing: "3px" }}
         >
           YES
         </text>
@@ -264,7 +371,7 @@ export function BoardElements() {
           fill="#d4a574"
           textAnchor="middle"
           dominantBaseline="middle"
-          style={{ fontFamily: "'Cinzel', serif", letterSpacing: '3px' }}
+          style={{ fontFamily: "'Cinzel', serif", letterSpacing: "3px" }}
         >
           NO
         </text>
@@ -280,14 +387,22 @@ export function BoardElements() {
           fill="#d4a574"
           textAnchor="middle"
           dominantBaseline="middle"
-          style={{ fontFamily: "'Cinzel', serif", letterSpacing: '4px' }}
+          style={{ fontFamily: "'Cinzel', serif", letterSpacing: "4px" }}
         >
           GOODBYE
         </text>
       </g>
 
       {/* Bottom decorative line */}
-      <line x1="250" y1="560" x2="550" y2="560" stroke="#d4a574" strokeWidth="0.5" opacity="0.2" />
+      <line
+        x1="250"
+        y1="560"
+        x2="550"
+        y2="560"
+        stroke="#d4a574"
+        strokeWidth="0.5"
+        opacity="0.2"
+      />
     </svg>
   );
 }

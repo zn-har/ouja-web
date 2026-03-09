@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { Position } from '@/types/ouija';
+import { motion } from "framer-motion";
+import { Position } from "@/types/ouija";
 
 interface CoinProps {
   position: Position;
@@ -9,149 +9,263 @@ interface CoinProps {
   isMoving: boolean;
 }
 
-// SVG viewBox dimensions matching BoardElements
-const VIEWBOX_W = 800;
-const VIEWBOX_H = 600;
-
 export function Planchette({ position, rotation, isMoving }: CoinProps) {
-  // Convert SVG viewBox coordinates to percentages
-  const leftPercent = (position.x / VIEWBOX_W) * 100;
-  const topPercent = (position.y / VIEWBOX_H) * 100;
-
+  // Position is already in viewport percentages (0-100) from calibration
   return (
     <motion.div
-      className="absolute pointer-events-none"
+      className="fixed pointer-events-none"
       style={{
-        width: '8%',
-        aspectRatio: '1',
-        translateX: '-50%',
-        translateY: '-50%',
+        width: "12vmin",
+        aspectRatio: "1",
+        translateX: "-50%",
+        translateY: "-50%",
+        zIndex: 50,
       }}
       animate={{
-        left: `${leftPercent}%`,
-        top: `${topPercent}%`,
+        left: `${position.x}vw`,
+        top: `${position.y}vh`,
         rotate: rotation,
       }}
       transition={{
-        type: 'spring',
+        type: "spring",
         stiffness: 100,
         damping: 18,
         mass: 0.8,
       }}
     >
-      <svg
-        width="100%"
-        height="100%"
-        viewBox="0 0 80 80"
-      >
+      <svg width="100%" height="100%" viewBox="0 0 80 80">
         <defs>
-          <filter id="coinGlow">
-            <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+          {/* Sinister blood-red glow filter */}
+          <filter id="coinGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="8" result="coloredBlur" />
+            <feFlood floodColor="#8b0000" floodOpacity="0.6" result="redOverlay" />
+            <feComposite in="redOverlay" in2="coloredBlur" operator="in" result="redGlow" />
             <feMerge>
+              <feMergeNode in="redGlow" />
               <feMergeNode in="coloredBlur" />
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
+
+          {/* Eerie eye glow */}
+          <filter id="eyeGlow" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="2" result="glow" />
+            <feMerge>
+              <feMergeNode in="glow" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+
+          {/* Tarnished dark patina gradient */}
           <radialGradient id="coinFace" cx="40%" cy="35%">
-            <stop offset="0%" style={{ stopColor: '#f0d060', stopOpacity: 1 }} />
-            <stop offset="50%" style={{ stopColor: '#c9a030', stopOpacity: 1 }} />
-            <stop offset="100%" style={{ stopColor: '#8a6e1e', stopOpacity: 1 }} />
+            <stop offset="0%" style={{ stopColor: "#4a4a3a", stopOpacity: 1 }} />
+            <stop offset="40%" style={{ stopColor: "#2d2d20", stopOpacity: 1 }} />
+            <stop offset="75%" style={{ stopColor: "#1a1a12", stopOpacity: 1 }} />
+            <stop offset="100%" style={{ stopColor: "#0d0d08", stopOpacity: 1 }} />
           </radialGradient>
+
+          {/* Corrosion / verdigris patches */}
+          <radialGradient id="corrosion1" cx="30%" cy="25%">
+            <stop offset="0%" style={{ stopColor: "#2a4a2a", stopOpacity: 0.4 }} />
+            <stop offset="100%" style={{ stopColor: "transparent", stopOpacity: 0 }} />
+          </radialGradient>
+          <radialGradient id="corrosion2" cx="70%" cy="65%">
+            <stop offset="0%" style={{ stopColor: "#1a3a2a", stopOpacity: 0.3 }} />
+            <stop offset="100%" style={{ stopColor: "transparent", stopOpacity: 0 }} />
+          </radialGradient>
+
+          {/* Dark edge */}
           <radialGradient id="coinEdge" cx="50%" cy="50%">
-            <stop offset="85%" style={{ stopColor: 'transparent', stopOpacity: 0 }} />
-            <stop offset="100%" style={{ stopColor: '#5a4010', stopOpacity: 0.6 }} />
+            <stop offset="80%" style={{ stopColor: "transparent", stopOpacity: 0 }} />
+            <stop offset="100%" style={{ stopColor: "#000000", stopOpacity: 0.8 }} />
+          </radialGradient>
+
+          {/* Blood-red pulse for the eye */}
+          <radialGradient id="eyePulse" cx="50%" cy="50%">
+            <stop offset="0%" style={{ stopColor: "#ff1a1a", stopOpacity: 1 }} />
+            <stop offset="40%" style={{ stopColor: "#cc0000", stopOpacity: 0.8 }} />
+            <stop offset="100%" style={{ stopColor: "#330000", stopOpacity: 0 }} />
           </radialGradient>
         </defs>
 
-        {/* Coin shadow */}
-        <ellipse
-          cx="42"
-          cy="44"
-          rx="30"
-          ry="30"
-          fill="rgba(0,0,0,0.4)"
-        />
+        {/* Dark ominous shadow */}
+        <ellipse cx="42" cy="45" rx="32" ry="32" fill="rgba(0,0,0,0.5)" />
 
-        {/* Coin body */}
+        {/* Coin body — tarnished dark bronze */}
         <circle
           cx="40"
           cy="40"
           r="30"
           fill="url(#coinFace)"
-          stroke="#a08020"
+          stroke="#1a1a10"
           strokeWidth="2.5"
-          filter={isMoving ? 'url(#coinGlow)' : 'none'}
+          filter={isMoving ? "url(#coinGlow)" : "none"}
         />
 
-        {/* Edge shading */}
-        <circle
-          cx="40"
-          cy="40"
-          r="30"
-          fill="url(#coinEdge)"
-        />
+        {/* Corrosion patches */}
+        <circle cx="40" cy="40" r="30" fill="url(#corrosion1)" />
+        <circle cx="40" cy="40" r="30" fill="url(#corrosion2)" />
 
-        {/* Inner ring */}
+        {/* Edge darkness */}
+        <circle cx="40" cy="40" r="30" fill="url(#coinEdge)" />
+
+        {/* Outer cursed ring — scratched and worn */}
         <circle
-          cx="40"
-          cy="40"
-          r="24"
+          cx="40" cy="40" r="28"
           fill="none"
-          stroke="#a08020"
-          strokeWidth="1.5"
+          stroke="#3a3020"
+          strokeWidth="0.8"
+          strokeDasharray="2 1.5"
+          opacity="0.7"
+        />
+
+        {/* Occult rune symbols around the rim */}
+        {["☽", "✦", "☠", "✧", "☾", "⛧", "✦", "☠", "✧", "⛧", "☽", "✦"].map((rune, i) => {
+          const angle = (i * 30 - 90) * (Math.PI / 180);
+          const x = 40 + 24 * Math.cos(angle);
+          const y = 40 + 24 * Math.sin(angle);
+          return (
+            <text
+              key={i}
+              x={x}
+              y={y}
+              textAnchor="middle"
+              dominantBaseline="central"
+              fill="#5a2020"
+              fontSize="3.5"
+              opacity="0.7"
+            >
+              {rune}
+            </text>
+          );
+        })}
+
+        {/* Inner boundary ring */}
+        <circle
+          cx="40" cy="40" r="19"
+          fill="none"
+          stroke="#3a2a1a"
+          strokeWidth="0.6"
           opacity="0.6"
         />
 
-        {/* Center viewing hole */}
-        <circle
-          cx="40"
-          cy="40"
-          r="10"
-          fill="rgba(0,0,0,0.85)"
-          stroke="#c9a030"
-          strokeWidth="1.5"
-        />
+        {/* ₹5 denomination — etched and worn */}
+        <text
+          x="40"
+          y="33"
+          textAnchor="middle"
+          dominantBaseline="central"
+          fill="#6a5a3a"
+          fontSize="10"
+          fontWeight="bold"
+          fontFamily="serif"
+          opacity="0.6"
+        >
+          ₹5
+        </text>
 
-        {/* Inner hole ring */}
-        <circle
-          cx="40"
-          cy="40"
-          r="7"
-          fill="rgba(0,0,0,0.95)"
-          stroke="#a08020"
-          strokeWidth="0.8"
-          opacity="0.5"
-        />
+        {/* Creepy all-seeing eye */}
+        <g filter="url(#eyeGlow)">
+          {/* Eye white (bloodshot tint) */}
+          <ellipse
+            cx="40" cy="44"
+            rx="8" ry="5"
+            fill="#1a0808"
+            stroke="#4a1010"
+            strokeWidth="0.5"
+          />
+          {/* Iris — deep crimson */}
+          <circle
+            cx="40" cy="44"
+            r="3.5"
+            fill="#660000"
+            stroke="#880000"
+            strokeWidth="0.3"
+          />
+          {/* Pupil — void black with red center glow */}
+          <circle cx="40" cy="44" r="1.8" fill="#000000" />
+          <circle cx="40" cy="44" r="0.6" fill="#ff0000" opacity="0.9" />
 
-        {/* Highlight gleam */}
+          {/* Eye glow aura */}
+          <ellipse
+            cx="40" cy="44"
+            rx="10" ry="6.5"
+            fill="url(#eyePulse)"
+            opacity={isMoving ? "0.5" : "0.2"}
+          />
+
+          {/* Bloodshot veins */}
+          <line x1="33" y1="43" x2="36" y2="44" stroke="#8b0000" strokeWidth="0.3" opacity="0.5" />
+          <line x1="33" y1="45" x2="36" y2="44.5" stroke="#8b0000" strokeWidth="0.2" opacity="0.4" />
+          <line x1="47" y1="43" x2="44" y2="44" stroke="#8b0000" strokeWidth="0.3" opacity="0.5" />
+          <line x1="47" y1="45" x2="44" y2="44.5" stroke="#8b0000" strokeWidth="0.2" opacity="0.4" />
+        </g>
+
+        {/* Tiny skull below denomination */}
+        <g transform="translate(40, 54)" fill="#4a3a2a" opacity="0.5">
+          {/* Skull */}
+          <ellipse cx="0" cy="0" rx="2.5" ry="2" />
+          <rect x="-1.5" y="1.5" width="3" height="1.5" rx="0.3" />
+          {/* Eye sockets */}
+          <circle cx="-0.8" cy="-0.3" r="0.5" fill="#1a1a10" />
+          <circle cx="0.8" cy="-0.3" r="0.5" fill="#1a1a10" />
+        </g>
+
+        {/* Scratch marks across the surface */}
+        <line x1="22" y1="35" x2="28" y2="37" stroke="#2a2a1a" strokeWidth="0.3" opacity="0.3" />
+        <line x1="52" y1="30" x2="58" y2="33" stroke="#2a2a1a" strokeWidth="0.3" opacity="0.25" />
+        <line x1="25" y1="50" x2="30" y2="48" stroke="#2a2a1a" strokeWidth="0.2" opacity="0.3" />
+
+        {/* Eerie dim gleam */}
         <ellipse
-          cx="33"
-          cy="33"
-          rx="8"
-          ry="5"
-          fill="rgba(255,255,220,0.25)"
+          cx="33" cy="33"
+          rx="6" ry="3"
+          fill="rgba(100,80,50,0.1)"
           transform="rotate(-30, 33, 33)"
         />
 
-        {/* Moving glow */}
+        {/* Serrated edge marks — jagged and uneven */}
+        {Array.from({ length: 36 }).map((_, i) => {
+          const angle = (i * 10 * Math.PI) / 180;
+          const jitter = i % 3 === 0 ? 1.5 : 1;
+          const x1 = 40 + 29 * Math.cos(angle);
+          const y1 = 40 + 29 * Math.sin(angle);
+          const x2 = 40 + (30 + jitter) * Math.cos(angle);
+          const y2 = 40 + (30 + jitter) * Math.sin(angle);
+          return (
+            <line
+              key={i}
+              x1={x1} y1={y1}
+              x2={x2} y2={y2}
+              stroke="#2a2a1a"
+              strokeWidth={i % 3 === 0 ? "1" : "0.6"}
+              opacity="0.5"
+            />
+          );
+        })}
+
+        {/* Moving glow rings — blood-red sinister aura */}
         {isMoving && (
           <>
             <circle
-              cx="40"
-              cy="40"
-              r="34"
+              cx="40" cy="40" r="33"
               fill="none"
-              stroke="#f0d060"
-              strokeWidth="1"
+              stroke="#8b0000"
+              strokeWidth="2"
               opacity="0.4"
             />
             <circle
-              cx="40"
-              cy="40"
-              r="38"
+              cx="40" cy="40" r="36"
               fill="none"
-              stroke="#f0d060"
-              strokeWidth="0.8"
+              stroke="#660000"
+              strokeWidth="1.5"
+              opacity="0.3"
+            />
+            <circle
+              cx="40" cy="40" r="39"
+              fill="none"
+              stroke="#440000"
+              strokeWidth="1"
               opacity="0.2"
             />
           </>

@@ -3,7 +3,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Ouija - Web Experience",
-  description: "Ask the spirits your questions through this mystical Ouija board powered by AI",
+  description:
+    "Ask the spirits your questions through this mystical Ouija board powered by AI",
 };
 
 export default function RootLayout({
@@ -19,7 +20,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased" style={{ fontFamily: "'EB Garamond', serif" }}>
+      <body
+        className="antialiased"
+        style={{ fontFamily: "'EB Garamond', serif" }}
+      >
         {children}
       </body>
     </html>

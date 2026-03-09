@@ -19,12 +19,24 @@ export function QuestionInput({ onSubmit, disabled }: QuestionInputProps) {
   }, [voice.transcript]);
 
   useEffect(() => {
-    if (!voice.isListening && !voice.isTranscribing && voice.transcript && !disabled) {
+    if (
+      !voice.isListening &&
+      !voice.isTranscribing &&
+      voice.transcript &&
+      !disabled
+    ) {
       onSubmit(voice.transcript);
       setQuestion("");
       voice.resetTranscript();
     }
-  }, [voice.isListening, voice.isTranscribing, voice.transcript, disabled, onSubmit, voice.resetTranscript]);
+  }, [
+    voice.isListening,
+    voice.isTranscribing,
+    voice.transcript,
+    disabled,
+    onSubmit,
+    voice.resetTranscript,
+  ]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,7 +66,13 @@ export function QuestionInput({ onSubmit, disabled }: QuestionInputProps) {
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
               disabled={disabled}
-              placeholder={voice.isTranscribing ? "Transcribing..." : voice.isListening ? "Listening..." : "Ask the spirits a question..."}
+              placeholder={
+                voice.isTranscribing
+                  ? "Transcribing..."
+                  : voice.isListening
+                    ? "Listening..."
+                    : "Ask the spirits a question..."
+              }
               maxLength={100}
               className="w-full px-6 py-4 bg-[#0e0906] border border-amber-800/40 rounded-xl
                        text-amber-100 placeholder-amber-900/60 text-lg
@@ -63,12 +81,14 @@ export function QuestionInput({ onSubmit, disabled }: QuestionInputProps) {
                        transition-all duration-500"
               style={{
                 fontFamily: "'EB Garamond', serif",
-                fontSize: '18px',
-                boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.4)',
+                fontSize: "18px",
+                boxShadow: "inset 0 2px 8px rgba(0,0,0,0.4)",
               }}
             />
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 text-amber-800/30 text-xs"
-              style={{ fontFamily: "'Cinzel', serif" }}>
+            <div
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-amber-800/30 text-xs"
+              style={{ fontFamily: "'Cinzel', serif" }}
+            >
               {question.length}/100
             </div>
           </div>
@@ -82,23 +102,36 @@ export function QuestionInput({ onSubmit, disabled }: QuestionInputProps) {
               className={`flex-shrink-0 w-14 h-14 rounded-xl border flex items-center justify-center
                          transition-all duration-500
                          disabled:opacity-40 disabled:cursor-not-allowed
-                         ${voice.isListening
-                           ? "bg-red-950/50 border-red-700/60 shadow-[0_0_25px_rgba(220,38,38,0.3)]"
-                           : voice.isTranscribing
-                             ? "bg-amber-950/50 border-amber-700/60 shadow-[0_0_25px_rgba(217,119,6,0.2)]"
-                             : "bg-[#0e0906] border-amber-800/40 hover:border-amber-600/60 hover:shadow-[0_0_20px_rgba(217,119,6,0.2)]"
+                         ${
+                           voice.isListening
+                             ? "bg-red-950/50 border-red-700/60 shadow-[0_0_25px_rgba(220,38,38,0.3)]"
+                             : voice.isTranscribing
+                               ? "bg-amber-950/50 border-amber-700/60 shadow-[0_0_25px_rgba(217,119,6,0.2)]"
+                               : "bg-[#0e0906] border-amber-800/40 hover:border-amber-600/60 hover:shadow-[0_0_20px_rgba(217,119,6,0.2)]"
                          }`}
-              title={voice.isTranscribing ? "Transcribing..." : voice.isListening ? "Stop listening" : "Ask with voice"}
+              title={
+                voice.isTranscribing
+                  ? "Transcribing..."
+                  : voice.isListening
+                    ? "Stop listening"
+                    : "Ask with voice"
+              }
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke={voice.isListening ? "#dc2626" : voice.isTranscribing ? "#d97706" : "#8b6914"}
+                stroke={
+                  voice.isListening
+                    ? "#dc2626"
+                    : voice.isTranscribing
+                      ? "#d97706"
+                      : "#8b6914"
+                }
                 strokeWidth="1.8"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className={`w-5 h-5 ${voice.isListening || voice.isTranscribing ? 'animate-pulse' : ''}`}
+                className={`w-5 h-5 ${voice.isListening || voice.isTranscribing ? "animate-pulse" : ""}`}
               >
                 <rect x="9" y="1" width="6" height="11" rx="3" />
                 <path d="M19 10v1a7 7 0 0 1-14 0v-1" />
@@ -111,17 +144,26 @@ export function QuestionInput({ onSubmit, disabled }: QuestionInputProps) {
 
         {/* Voice status */}
         {voice.error && (
-          <p className="text-center text-red-400/70 text-sm" style={{ fontFamily: "'EB Garamond', serif" }}>
+          <p
+            className="text-center text-red-400/70 text-sm"
+            style={{ fontFamily: "'EB Garamond', serif" }}
+          >
             {voice.error}
           </p>
         )}
         {voice.isListening && (
-          <p className="text-center text-red-400/70 text-sm animate-pulse" style={{ fontFamily: "'EB Garamond', serif", fontStyle: 'italic' }}>
+          <p
+            className="text-center text-red-400/70 text-sm animate-pulse"
+            style={{ fontFamily: "'EB Garamond', serif", fontStyle: "italic" }}
+          >
             Speak your question to the spirits...
           </p>
         )}
         {voice.isTranscribing && (
-          <p className="text-center text-amber-500/70 text-sm animate-pulse" style={{ fontFamily: "'EB Garamond', serif", fontStyle: 'italic' }}>
+          <p
+            className="text-center text-amber-500/70 text-sm animate-pulse"
+            style={{ fontFamily: "'EB Garamond', serif", fontStyle: "italic" }}
+          >
             The spirits are deciphering your words...
           </p>
         )}
@@ -140,14 +182,17 @@ export function QuestionInput({ onSubmit, disabled }: QuestionInputProps) {
                    group"
           style={{
             fontFamily: "'Cinzel', serif",
-            letterSpacing: '3px',
-            background: 'linear-gradient(135deg, #1a0f07 0%, #2a1810 50%, #1a0f07 100%)',
+            letterSpacing: "3px",
+            background:
+              "linear-gradient(135deg, #1a0f07 0%, #2a1810 50%, #1a0f07 100%)",
           }}
         >
           {/* Button hover glow */}
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          <div
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
             style={{
-              background: 'radial-gradient(ellipse at center, rgba(139, 69, 19, 0.15) 0%, transparent 70%)',
+              background:
+                "radial-gradient(ellipse at center, rgba(139, 69, 19, 0.15) 0%, transparent 70%)",
             }}
           />
           <span className="relative z-10">
@@ -158,7 +203,13 @@ export function QuestionInput({ onSubmit, disabled }: QuestionInputProps) {
         {/* Active session indicator */}
         {disabled && (
           <div className="text-center">
-            <p className="text-amber-600/40 text-sm animate-pulse" style={{ fontFamily: "'EB Garamond', serif", fontStyle: 'italic' }}>
+            <p
+              className="text-amber-600/40 text-sm animate-pulse"
+              style={{
+                fontFamily: "'EB Garamond', serif",
+                fontStyle: "italic",
+              }}
+            >
               The coin is moving... watch carefully...
             </p>
           </div>

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { Message } from '@/types/ouija';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Message } from "@/types/ouija";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface MessageHistoryProps {
   messages: Message[];
@@ -15,9 +15,9 @@ export function MessageHistory({ messages, onClear }: MessageHistoryProps) {
 
   const formatTime = (timestamp: number) => {
     const date = new Date(timestamp);
-    return date.toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit'
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -40,7 +40,7 @@ export function MessageHistory({ messages, onClear }: MessageHistoryProps) {
           className="px-3 py-1.5 text-xs text-amber-800/50 border border-amber-800/20 rounded-lg
                    hover:bg-amber-900/10 hover:text-amber-600/70 hover:border-amber-800/40
                    transition-all duration-500"
-          style={{ fontFamily: "'Cinzel', serif", letterSpacing: '1px' }}
+          style={{ fontFamily: "'Cinzel', serif", letterSpacing: "1px" }}
         >
           Clear
         </button>
@@ -55,20 +55,22 @@ export function MessageHistory({ messages, onClear }: MessageHistoryProps) {
               initial={{ opacity: 0, y: -15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 15 }}
-              transition={{ duration: 0.4, ease: 'easeOut' }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
               className="bg-[#0e0906] border border-amber-800/20 rounded-xl p-5
                        hover:border-amber-700/30 transition-all duration-500
                        group"
               style={{
-                boxShadow: '0 2px 12px rgba(0, 0, 0, 0.3)',
+                boxShadow: "0 2px 12px rgba(0, 0, 0, 0.3)",
               }}
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 space-y-3">
                   {/* Question */}
                   <div>
-                    <div className="text-[10px] text-amber-700/40 mb-1 tracking-[3px] uppercase"
-                      style={{ fontFamily: "'Cinzel', serif" }}>
+                    <div
+                      className="text-[10px] text-amber-700/40 mb-1 tracking-[3px] uppercase"
+                      style={{ fontFamily: "'Cinzel', serif" }}
+                    >
                       Question
                     </div>
                     <div
@@ -84,15 +86,17 @@ export function MessageHistory({ messages, onClear }: MessageHistoryProps) {
 
                   {/* Answer */}
                   <div>
-                    <div className="text-[10px] text-amber-700/40 mb-1 tracking-[3px] uppercase"
-                      style={{ fontFamily: "'Cinzel', serif" }}>
+                    <div
+                      className="text-[10px] text-amber-700/40 mb-1 tracking-[3px] uppercase"
+                      style={{ fontFamily: "'Cinzel', serif" }}
+                    >
                       Spirit
                     </div>
                     <div
                       className="text-amber-300/80 text-xl font-bold tracking-[4px]"
                       style={{
                         fontFamily: "'Cinzel', serif",
-                        textShadow: '0 0 12px rgba(252, 211, 77, 0.15)'
+                        textShadow: "0 0 12px rgba(252, 211, 77, 0.15)",
                       }}
                     >
                       {message.answer}
@@ -101,8 +105,10 @@ export function MessageHistory({ messages, onClear }: MessageHistoryProps) {
                 </div>
 
                 {/* Timestamp */}
-                <div className="text-[10px] text-amber-800/30 whitespace-nowrap"
-                  style={{ fontFamily: "'Cinzel', serif" }}>
+                <div
+                  className="text-[10px] text-amber-800/30 whitespace-nowrap"
+                  style={{ fontFamily: "'Cinzel', serif" }}
+                >
                   {formatTime(message.timestamp)}
                 </div>
               </div>

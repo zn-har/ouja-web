@@ -25,7 +25,9 @@ export function useVoiceRecognition(): UseVoiceRecognitionReturn {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const hasMediaDevices = typeof navigator.mediaDevices !== "undefined" && typeof navigator.mediaDevices.getUserMedia === "function";
+      const hasMediaDevices =
+        typeof navigator.mediaDevices !== "undefined" &&
+        typeof navigator.mediaDevices.getUserMedia === "function";
       const hasMediaRecorder = typeof window.MediaRecorder !== "undefined";
       setIsSupported(hasMediaDevices && hasMediaRecorder);
     }
@@ -108,8 +110,13 @@ export function useVoiceRecognition(): UseVoiceRecognitionReturn {
       setIsListening(true);
     } catch (err: any) {
       stopStream();
-      if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
-        setError("Microphone access denied. Allow mic access in browser settings.");
+      if (
+        err.name === "NotAllowedError" ||
+        err.name === "PermissionDeniedError"
+      ) {
+        setError(
+          "Microphone access denied. Allow mic access in browser settings.",
+        );
       } else if (err.name === "NotFoundError") {
         setError("No microphone found. Connect a microphone.");
       } else {
