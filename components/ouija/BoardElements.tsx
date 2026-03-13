@@ -14,13 +14,13 @@ export function BoardElements() {
   return (
     <svg viewBox="0 0 800 600" className="w-full h-full">
       <defs>
-        {/* Wood grain gradient */}
+        {/* Dark board gradient */}
         <radialGradient id="boardGradient" cx="50%" cy="50%" r="70%">
-          <stop offset="0%" style={{ stopColor: "#3d2213", stopOpacity: 1 }} />
-          <stop offset="40%" style={{ stopColor: "#2a1810", stopOpacity: 1 }} />
+          <stop offset="0%" style={{ stopColor: "#101010", stopOpacity: 1 }} />
+          <stop offset="40%" style={{ stopColor: "#060606", stopOpacity: 1 }} />
           <stop
             offset="100%"
-            style={{ stopColor: "#150c07", stopOpacity: 1 }}
+            style={{ stopColor: "#000000", stopOpacity: 1 }}
           />
         </radialGradient>
 
@@ -105,13 +105,13 @@ export function BoardElements() {
           </feMerge>
         </filter>
 
-        {/* Ornate corner clip */}
+        {/* Light border accent */}
         <linearGradient id="borderGold" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: "#c9a030", stopOpacity: 1 }} />
-          <stop offset="50%" style={{ stopColor: "#8b6914", stopOpacity: 1 }} />
+          <stop offset="0%" style={{ stopColor: "#f3f3f3", stopOpacity: 1 }} />
+          <stop offset="50%" style={{ stopColor: "#bdbdbd", stopOpacity: 1 }} />
           <stop
             offset="100%"
-            style={{ stopColor: "#c9a030", stopOpacity: 1 }}
+            style={{ stopColor: "#f3f3f3", stopOpacity: 1 }}
           />
         </linearGradient>
       </defs>

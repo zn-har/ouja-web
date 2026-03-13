@@ -83,24 +83,17 @@ export default function Home() {
     [session.askSpirit],
   );
 
-  // Settings button visibility
-  const [showSettings, setShowSettings] = useState(true);
+  // Settings button visibility (toggle with T)
+  const [showSettings, setShowSettings] = useState(false);
 
   useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
-    const show = () => {
-      setShowSettings(true);
-      clearTimeout(timer);
-      timer = setTimeout(() => setShowSettings(false), 5000);
+    const handleToggleSettings = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() !== "t" || e.repeat) return;
+      setShowSettings((prev) => !prev);
     };
-    window.addEventListener("mousemove", show);
-    window.addEventListener("touchstart", show);
-    timer = setTimeout(() => setShowSettings(false), 5000);
-    return () => {
-      window.removeEventListener("mousemove", show);
-      window.removeEventListener("touchstart", show);
-      clearTimeout(timer);
-    };
+
+    window.addEventListener("keydown", handleToggleSettings);
+    return () => window.removeEventListener("keydown", handleToggleSettings);
   }, []);
 
   return (
@@ -110,7 +103,7 @@ export default function Home() {
         inset: 0,
         width: "100vw",
         height: "100vh",
-        background: "#ffffff",
+        background: "#000000",
         overflow: "hidden",
       }}
     >

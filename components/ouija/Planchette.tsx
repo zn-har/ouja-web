@@ -56,28 +56,28 @@ export function Planchette({ position, rotation, isMoving }: CoinProps) {
             </feMerge>
           </filter>
 
-          {/* Tarnished dark patina gradient */}
+          {/* White coin face gradient */}
           <radialGradient id="coinFace" cx="40%" cy="35%">
-            <stop offset="0%" style={{ stopColor: "#4a4a3a", stopOpacity: 1 }} />
-            <stop offset="40%" style={{ stopColor: "#2d2d20", stopOpacity: 1 }} />
-            <stop offset="75%" style={{ stopColor: "#1a1a12", stopOpacity: 1 }} />
-            <stop offset="100%" style={{ stopColor: "#0d0d08", stopOpacity: 1 }} />
+            <stop offset="0%" style={{ stopColor: "#ffffff", stopOpacity: 1 }} />
+            <stop offset="45%" style={{ stopColor: "#f3f3f3", stopOpacity: 1 }} />
+            <stop offset="80%" style={{ stopColor: "#e7e7e7", stopOpacity: 1 }} />
+            <stop offset="100%" style={{ stopColor: "#d9d9d9", stopOpacity: 1 }} />
           </radialGradient>
 
-          {/* Corrosion / verdigris patches */}
+          {/* Soft texture overlays */}
           <radialGradient id="corrosion1" cx="30%" cy="25%">
-            <stop offset="0%" style={{ stopColor: "#2a4a2a", stopOpacity: 0.4 }} />
+            <stop offset="0%" style={{ stopColor: "#f6f6f6", stopOpacity: 0.4 }} />
             <stop offset="100%" style={{ stopColor: "transparent", stopOpacity: 0 }} />
           </radialGradient>
           <radialGradient id="corrosion2" cx="70%" cy="65%">
-            <stop offset="0%" style={{ stopColor: "#1a3a2a", stopOpacity: 0.3 }} />
+            <stop offset="0%" style={{ stopColor: "#efefef", stopOpacity: 0.3 }} />
             <stop offset="100%" style={{ stopColor: "transparent", stopOpacity: 0 }} />
           </radialGradient>
 
-          {/* Dark edge */}
+          {/* Soft edge shading */}
           <radialGradient id="coinEdge" cx="50%" cy="50%">
             <stop offset="80%" style={{ stopColor: "transparent", stopOpacity: 0 }} />
-            <stop offset="100%" style={{ stopColor: "#000000", stopOpacity: 0.8 }} />
+            <stop offset="100%" style={{ stopColor: "#8a8a8a", stopOpacity: 0.35 }} />
           </radialGradient>
 
           {/* Blood-red pulse for the eye */}
@@ -91,13 +91,13 @@ export function Planchette({ position, rotation, isMoving }: CoinProps) {
         {/* Dark ominous shadow */}
         <ellipse cx="42" cy="45" rx="32" ry="32" fill="rgba(0,0,0,0.5)" />
 
-        {/* Coin body — tarnished dark bronze */}
+        {/* Coin body */}
         <circle
           cx="40"
           cy="40"
           r="30"
           fill="url(#coinFace)"
-          stroke="#1a1a10"
+          stroke="#cfcfcf"
           strokeWidth="2.5"
           filter={isMoving ? "url(#coinGlow)" : "none"}
         />

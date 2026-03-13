@@ -1,16 +1,16 @@
-import { GoogleGenAI } from "@google/genai";
+import Groq from "groq-sdk";
 import { NextRequest, NextResponse } from "next/server";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY || "" });
 
 export async function POST(request: NextRequest) {
   try {
     if (
-      !process.env.GEMINI_API_KEY ||
-      process.env.GEMINI_API_KEY === "your_gemini_api_key_here"
+      !process.env.GROQ_API_KEY ||
+      process.env.GROQ_API_KEY === "your_groq_api_key_here"
     ) {
       return NextResponse.json(
-        { error: "Gemini API key not configured" },
+        { error: "Groq API key not configured" },
         { status: 500 },
       );
     }
@@ -25,32 +25,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const arrayBuffer = await audioFile.arrayBuffer();
-    const base64Audio = Buffer.from(arrayBuffer).toString("base64");
-
-    const mimeType = audioFile.type || "audio/webm";
-
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: [
-        {
-          role: "user",
-          parts: [
-            {
-              inlineData: {
-                mimeType,
-                data: base64Audio,
-              },
-            },
-            {
-              text: "Transcribe this audio exactly as spoken. Return ONLY the transcribed text, nothing else. No quotes, no labels, no explanations.",
-            },
-          ],
-        },
-      ],
+    // Groq Whisper expects a File object directly
+    const transcription = await groq.audio.transcriptions.create({
+      file: audioFile,
+      model: "whisper-large-v3",
+      language: "en",
     });
 
-    const transcript = response.text?.trim() ?? "";
+    const transcript = transcription.text?.trim() ?? "";
 
     if (!transcript) {
       return NextResponse.json(

@@ -1,8 +1,8 @@
-import { GoogleGenAI } from "@google/genai";
+import Groq from "groq-sdk";
 import { NextRequest, NextResponse } from "next/server";
 
-// Initialize Gemini AI
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+// Initialize Groq
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY || "" });
 
 // Spooky fallback messages for when API fails
 const FALLBACK_MESSAGES = [
@@ -32,7 +32,7 @@ function cleanResponse(text: string): string {
 
 /**
  * POST /api/ask-spirit
- * Accepts a question and returns a mystical response from Gemini AI
+ * Accepts a question and returns a mystical response from Groq AI
  */
 export async function POST(request: NextRequest) {
   try {
@@ -48,10 +48,10 @@ export async function POST(request: NextRequest) {
 
     // Check if API key is configured
     if (
-      !process.env.GEMINI_API_KEY ||
-      process.env.GEMINI_API_KEY === "your_gemini_api_key_here"
+      !process.env.GROQ_API_KEY ||
+      process.env.GROQ_API_KEY === "your_groq_api_key_here"
     ) {
-      console.warn("Gemini API key not configured, using fallback");
+      console.warn("Groq API key not configured, using fallback");
       const fallback =
         FALLBACK_MESSAGES[Math.floor(Math.random() * FALLBACK_MESSAGES.length)];
       return NextResponse.json({ answer: fallback });
@@ -91,13 +91,17 @@ Q: "When will I die?" → NEVER
 Q: "Where are you?" → HERE
 Q: "What is my name?" → UNKNOWN`;
 
-    const response = await ai.models.generateContent({
-      model: "gemini-3",
-      systemInstruction,
-      contents: question,
+    const chatCompletion = await groq.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        { role: "system", content: systemInstruction },
+        { role: "user", content: question },
+      ],
+      temperature: 0.7,
+      max_tokens: 20,
     });
 
-    const text = response.text ?? "";
+    const text = chatCompletion.choices[0]?.message?.content ?? "";
 
     // Clean and format the response
     const answer = cleanResponse(text);
@@ -111,7 +115,7 @@ Q: "What is my name?" → UNKNOWN`;
 
     return NextResponse.json({ answer });
   } catch (error) {
-    console.error("Error calling Gemini AI:", error);
+    console.error("Error calling Groq AI:", error);
 
     // Return a spooky fallback message on error
     const fallback =
