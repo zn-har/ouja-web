@@ -1,10 +1,17 @@
 "use client";
 
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect, useRef } from "react";
 import { usePlanchette } from "@/hooks/usePlanchette";
 import { useOuijaSession } from "@/hooks/useOuijaSession";
 import { Planchette } from "@/components/ouija/Planchette";
 import { VoiceButton } from "@/components/ouija/VoiceButton";
+
+declare global {
+  interface Window {
+    __ouijaDebug: (text: string) => void;
+    __ouijaMoveTo: (char: string) => void;
+  }
+}
 
 export default function Home() {
   const planchette = usePlanchette();
@@ -13,6 +20,61 @@ export default function Home() {
     onCharacterChange: planchette.animateToCharacter,
     onComplete: planchette.reset,
   });
+
+  // Store animateToCharacter in a ref so the debug functions always use the latest
+  const animateRef = useRef(planchette.animateToCharacter);
+  animateRef.current = planchette.animateToCharacter;
+
+  const resetRef = useRef(planchette.reset);
+  resetRef.current = planchette.reset;
+
+  // Expose debug functions on window for console testing
+  useEffect(() => {
+    /**
+     * Usage from browser console:
+     *   __ouijaDebug("HELLO")   — animates coin: START → H → E → L → L → O → GOODBYE
+     *   __ouijaMoveTo("A")      — moves coin to a single character/position
+     */
+    window.__ouijaDebug = (text: string) => {
+      const answer = text.toUpperCase();
+      console.log(`🔮 [Ouija Debug] Animating: "${answer}"`);
+
+      (async () => {
+        // Move to START
+        await animateRef.current("START");
+        await new Promise((r) => setTimeout(r, 500));
+
+        for (let i = 0; i < answer.length; i++) {
+          const char = answer[i];
+          if (char === " ") {
+            await new Promise((r) => setTimeout(r, 400));
+            continue;
+          }
+          console.log(`🔮 [Ouija Debug] → ${char}`);
+          await animateRef.current(char);
+          await new Promise((r) => setTimeout(r, 800));
+        }
+
+        // Move to GOODBYE
+        await new Promise((r) => setTimeout(r, 500));
+        await animateRef.current("GOODBYE");
+        await new Promise((r) => setTimeout(r, 1000));
+
+        console.log("🔮 [Ouija Debug] Done.");
+        resetRef.current();
+      })();
+    };
+
+    window.__ouijaMoveTo = (char: string) => {
+      console.log(`🔮 [Ouija Debug] Moving to: "${char.toUpperCase()}"`);
+      animateRef.current(char.toUpperCase());
+    };
+
+    return () => {
+      delete (window as any).__ouijaDebug;
+      delete (window as any).__ouijaMoveTo;
+    };
+  }, []);
 
   const handleVoiceTranscript = useCallback(
     (text: string) => {

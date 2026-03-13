@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     const mimeType = audioFile.type || "audio/webm";
 
     const response = await ai.models.generateContent({
-      model: "gemini-3",
+      model: "gemini-2.5-flash",
       contents: [
         {
           role: "user",
